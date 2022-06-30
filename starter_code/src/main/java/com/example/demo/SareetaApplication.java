@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories("com.example.demo.model.persistence.repositories")
 @EntityScan("com.example.demo.model.persistence")
-@SpringBootApplication
+@SpringBootApplication//(exclude = {SecurityConfiguration.class})
 public class SareetaApplication {
-
 	//Kevin Pro
 	public static void main(String[] args) {
 		SpringApplication.run(SareetaApplication.class, args);
