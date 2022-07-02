@@ -22,6 +22,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.userDetailsService = u;
         this.bCryptPasswordEncoder = b;
     }
+
     //Define los recursos públicos. A continuación, hemos establecido el
     // punto final SIGN_UP_URL como público. El http.cors() se utiliza para
     // hacer que Spring Security admita CORS (Cross-Origin Resource Sharing)
@@ -35,7 +36,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationVerficationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception{
+        return super.authenticationManager();
+    }
+    //authenticationManager
 
     //declara BCryptPasswordEncoder como la técnica de codificación
     // y carga datos específicos del usuario.

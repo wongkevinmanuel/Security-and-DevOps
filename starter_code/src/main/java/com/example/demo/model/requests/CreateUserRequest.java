@@ -7,9 +7,10 @@ public class CreateUserRequest {
 	@JsonProperty
 	private String username;
 
+	//A
 	@JsonProperty
 	private String password;
-
+	//A
 	@JsonProperty
 	private String confirmPassword;
 

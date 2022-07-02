@@ -34,6 +34,7 @@ public class UserController {
 	@Autowired
 	private CartRepository cartRepository;
 
+	//A
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
