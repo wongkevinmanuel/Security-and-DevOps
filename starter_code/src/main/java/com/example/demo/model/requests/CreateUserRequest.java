@@ -10,9 +10,11 @@ public class CreateUserRequest {
 	//A
 	@JsonProperty
 	private String password;
+
+
 	//A
 	@JsonProperty
-	private String confirmPassword;
+	private String confirmpassword;
 
 	public String getUsername() {
 		return username;
@@ -30,11 +32,13 @@ public class CreateUserRequest {
 		this.password = password;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
+
+	public String getConfirmpassword() {
+		return confirmpassword;
 	}
 
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
+	public void setConfirmpassword(String confirmpassword) {
+		this.confirmpassword = confirmpassword;
 	}
+
 }

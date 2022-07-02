@@ -73,7 +73,7 @@ public class UserController {
 		}
 
 		if (!contraseniaConfirmada(createUserRequest.getPassword()
-				, createUserRequest.getConfirmPassword())){
+				, createUserRequest.getConfirmpassword())){
 			log.error("No confirm password. Cannot create user {}.",
 						new Exception(createUserRequest.getUsername()));
 			return ResponseEntity.badRequest().build();
@@ -89,6 +89,10 @@ public class UserController {
 		log.info("User Saved! Id: "+user.getId());
 
 		return ResponseEntity.ok(user);
+		/*
+		* Token de autenticacion
+		* Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXZpbiIsImV4cCI6MTY1NjczMzU1Mn0.rJ_2WduL5sHrV0FsyESclabi8s9KvqXRs6HyEWadTsbdBQwJCuu7vG6dK0o_HXZ66NgWzP9hgxLFzg36KGfyjA
+		* */
 	}
 	
 }
