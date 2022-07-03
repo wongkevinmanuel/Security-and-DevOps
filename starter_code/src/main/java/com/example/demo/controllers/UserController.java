@@ -69,6 +69,7 @@ public class UserController {
 		if(contraseniaErrorODebil(createUserRequest)){
 			log.error("Error with user password. Cannot create user {}."
 						,new Exception(createUserRequest.getUsername()));
+
 			return ResponseEntity.badRequest().build();
 		}
 
