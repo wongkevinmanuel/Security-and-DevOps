@@ -23,6 +23,8 @@ import com.example.demo.model.requests.CreateUserRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.validation.constraints.NotNull;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -50,6 +52,18 @@ public class UserController {
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
 
+	private String existenPropiedadesNull(@NotNull String usuario, String pass, String confirPass){
+
+		if(usuario == null || usuario.isEmpty())
+			return "User name";
+		if(pass == null || pass.isEmpty())
+			return "Password";
+		if(confirPass == null || confirPass.isEmpty())
+			return "Confirm Password";
+
+		return new String();
+	}
+
 	private boolean contraseniaErrorODebil(CreateUserRequest createUserRequest){
 		return (createUserRequest.getPassword().isEmpty()  || createUserRequest.getPassword().length() < 7)
 				? true:false;
@@ -62,9 +76,17 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		//log.info("Creating user {}", createUserRequest.getUsername());
+		if(Objects.isNull(createUserRequest)) {
+			log.error("No null user. Cannot create user.",
+					new Exception(createUserRequest.getUsername()));
+			return ResponseEntity.badRequest().build();
+		}
 
-		if(Objects.isNull(createUserRequest)){
-			log.error("No null user. Cannot create user {}.",
+		String nombreCampoNull = existenPropiedadesNull(createUserRequest.getUsername()
+														,createUserRequest.getPassword()
+														, createUserRequest.getConfirmpassword());
+		if (!nombreCampoNull.isEmpty()){
+			log.error("No null in "+ nombreCampoNull + ". Cannot create user {}.",
 					new Exception(createUserRequest.getUsername()));
 			return ResponseEntity.badRequest().build();
 		}
@@ -74,9 +96,8 @@ public class UserController {
 
 
 		if(contraseniaErrorODebil(createUserRequest)){
-			log.error("Error with user password. Cannot create user {}."
+			log.error("Error with user password. Cannot create user."
 						,new Exception(createUserRequest.getUsername()));
-
 			return ResponseEntity.badRequest().build();
 		}
 

@@ -7,7 +7,7 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class UserControllerT {
-    private UserController usuarioControlador;
+    private UserController userController;
 
     private UserRepository usuarioRepositorio = mock(UserRepository.class);
 
@@ -28,13 +28,11 @@ public class UserControllerT {
 
     @Before
     public void configuracion(){
-        usuarioControlador = new UserController();
+        userController = new UserController();
         //Obtiene todos los campos inyectados en mi objeto controlador usuario.
-        TestUtils.InyectarObjeto(usuarioControlador, "userRepository", usuarioRepositorio);
-        TestUtils.InyectarObjeto(usuarioControlador, "cartRepository", autoRepositorio);
-        TestUtils.InyectarObjeto(usuarioControlador, "bCryptPasswordEncoder", encoder);
-
-
+        TestUtils.InyectarObjeto(userController, "userRepository", usuarioRepositorio);
+        TestUtils.InyectarObjeto(userController, "cartRepository", autoRepositorio);
+        TestUtils.InyectarObjeto(userController, "bCryptPasswordEncoder", encoder);
     }
 
     //Prueba de cordura
@@ -49,18 +47,18 @@ public class UserControllerT {
         //puede reemplazar ese valor llamando a thenReturn
         //en esto y poner cualquier valor de mi eleccion.
         //stubbing.
-        when(encoder.encode("testtest")).thenReturn("thiIsHashed");
+        when(encoder.encode("testPass")).thenReturn("thiIsHashed");
         CreateUserRequest request= new CreateUserRequest();
         request.setUsername("test");
-        request.setConfirmpassword("12345678");
-        request.setConfirmpassword("1234567");
+        request.setPassword("testPass");
+        request.setConfirmpassword("testPass");
 
         //Aqui se llama al metodo que se esta probando
-        final ResponseEntity<User> response = usuarioControlador.createUser(request);
+        ResponseEntity<User> response = userController.createUser(request);
 
         //Afirmaciones sobre el objeto que hace las solicitudes
         assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());//response.getStatusCodeValue());
 
         //Afirmaciones sobre el usuario creado
         User usuarioNuevo = response.getBody();
@@ -68,7 +66,7 @@ public class UserControllerT {
         assertNotNull(usuarioNuevo);
         assertEquals(0 ,usuarioNuevo.getId());
         assertEquals(request.getUsername(),usuarioNuevo.getUsername());
-        assertEquals(request.getConfirmpassword(),usuarioNuevo.getPassword());
+        assertEquals("thiIsHashed",usuarioNuevo.getPassword());
     }
 
 }
