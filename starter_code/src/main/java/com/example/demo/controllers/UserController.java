@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,12 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		//log.info("Creating user {}", createUserRequest.getUsername());
+
+		if(Objects.isNull(createUserRequest)){
+			log.error("No null user. Cannot create user {}.",
+					new Exception(createUserRequest.getUsername()));
+			return ResponseEntity.badRequest().build();
+		}
 
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
