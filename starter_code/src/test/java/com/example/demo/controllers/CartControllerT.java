@@ -5,6 +5,7 @@ import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.requests.CreateUserRequest;
 import com.example.demo.model.requests.ModifyCartRequest;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,42 @@ public class CartControllerT {
         assertEquals(HttpStatus.OK, responseCart.getStatusCode());
         assertNotNull(responseCart.getBody());
 
+        requestCart.setItemId(2L);
+        requestCart.setQuantity(1);
+        responseCart = cartController.addTocart(requestCart);
+        assertNotNull(responseCart);
+        //assertEquals(HttpStatus.OK, responseCart.getStatusCode());
+        responseCart = cartController.removeFromcart(requestCart);
+        assertNotNull(responseCart);
+        assertEquals(HttpStatus.OK, responseCart.getStatusCode());
     }
 
-    //removeFromCart
+    @Test
+    public void removeFromCart(){
+        CreateUserRequest request= new CreateUserRequest();
+        request.setUsername("USERNAME");
+        request.setPassword("PASSWORD");
+        request.setConfirmpassword("PASSWORD");
+
+        ResponseEntity<User> response = userController.createUser(request);
+        User user = response.getBody();
+
+        assertNotNull(response);
+
+        //Agregar objeto Cart
+        ModifyCartRequest requestCart = new ModifyCartRequest();
+        requestCart.setUsername(user.getUsername());
+        requestCart.setItemId(1);
+        requestCart.setQuantity(2);
+
+        ResponseEntity<Cart> responseCart = cartController.addTocart(requestCart);
+
+        assertNotNull(responseCart);
+        assertEquals(HttpStatus.OK, responseCart.getStatusCode());
+        assertNotNull(responseCart.getBody());
+
+        responseCart = cartController.removeFromcart(requestCart);
+        assertNotNull(responseCart);
+        assertEquals( 0,responseCart.getBody().getItems().size());
+    }
 }
