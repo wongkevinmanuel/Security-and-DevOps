@@ -69,12 +69,12 @@ public class UserControllerTest {
         request.setPassword(PASSWORD);
         request.setConfirmpassword(CONFIRMPASSWORD);
 
-        ResponseEntity<User> response;
-        response = userController.createUser(request);
+        ResponseEntity<User> response = userController.createUser(request);
+
         User user = response.getBody();
         assertNotNull(response);
 
-        response = userController.findById(user.getId());
+        //response = userController.findById(user.getId());
         assertNotNull(response);
         User userBuscado = response.getBody();
         assertEquals(user.getId(), userBuscado.getId());
