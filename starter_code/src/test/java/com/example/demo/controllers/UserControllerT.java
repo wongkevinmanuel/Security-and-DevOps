@@ -5,7 +5,10 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
+import org.hibernate.boot.model.source.internal.hbm.AbstractSingularAttributeSourceEmbeddedImpl;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 public class UserControllerT {
     private UserController userController;
 
@@ -26,6 +30,7 @@ public class UserControllerT {
 
     private BCryptPasswordEncoder encoder = mock(BCryptPasswordEncoder.class);
 
+    //@Before
     @Before
     public void configuracion(){
         userController = new UserController();
@@ -69,4 +74,59 @@ public class UserControllerT {
         assertEquals("thiIsHashed",usuarioNuevo.getPassword());
     }
 
+    String USERNAME = "test";
+    String PASSWORD = "testPass";
+    String CONFIRMPASSWORD = "testPass";
+    @Ignore
+    @Test
+    public void contraseniaDebil(){
+        String PASSWORDWEAK = "123456";
+        CreateUserRequest request= new CreateUserRequest();
+        request.setUsername(USERNAME);
+        request.setPassword(PASSWORDWEAK);
+        request.setConfirmpassword(PASSWORDWEAK);
+
+        ResponseEntity<User> response = userController.createUser(request);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Ignore
+    @Test
+    public  void contraseniaNoConfirmada(){
+        String OTHERPASSWORD = "987654";
+        CreateUserRequest request= new CreateUserRequest();
+        request.setUsername(USERNAME);
+        request.setPassword(PASSWORD);
+        request.setConfirmpassword(OTHERPASSWORD);
+
+        ResponseEntity<User> response = userController.createUser(request);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+    //Voy a probar los metodos que estan en el UserController
+    //findById
+    @Test
+    public void getUserById(){
+        CreateUserRequest request= new CreateUserRequest();
+        request.setUsername(USERNAME);
+        request.setPassword(PASSWORD);
+        request.setConfirmpassword(CONFIRMPASSWORD);
+
+        ResponseEntity<User> response;
+        response = userController.createUser(request);
+        User user = response.getBody();
+        assertNotNull(response);
+
+        response = userController.findById(user.getId());
+        assertNotNull(response);
+        User userBuscado = response.getBody();
+        assertEquals(user.getId(), userBuscado.getId());
+    }
+
+    //findByName
 }

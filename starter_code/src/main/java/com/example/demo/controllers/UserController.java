@@ -90,11 +90,11 @@ public class UserController {
 
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
-		log.info("User name set with ", createUserRequest.getUsername());
+		log.info("User name set with {}", createUserRequest.getUsername());
 
 
 		if(contraseniaErrorODebil(createUserRequest)){
-			log.error("Error with user password. Cannot create user."
+			log.error("Error with user password. Cannot create user. No password length < 7."
 						,new Exception(createUserRequest.getUsername()));
 			return ResponseEntity.badRequest().build();
 		}
