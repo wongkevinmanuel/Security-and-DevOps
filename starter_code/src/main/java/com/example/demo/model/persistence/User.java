@@ -31,7 +31,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne //(cascade = CascadeType.ALL) Original
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
 	@JsonIgnore
     private Cart cart;

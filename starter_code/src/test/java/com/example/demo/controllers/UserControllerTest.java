@@ -70,16 +70,33 @@ public class UserControllerTest {
         request.setConfirmpassword(CONFIRMPASSWORD);
 
         ResponseEntity<User> response = userController.createUser(request);
-
         User user = response.getBody();
+
         assertNotNull(response);
 
-        //response = userController.findById(user.getId());
+        response = userController.findById(user.getId());
         assertNotNull(response);
         User userBuscado = response.getBody();
         assertEquals(user.getId(), userBuscado.getId());
     }
 
     //findByName
+    @Test
+    public void findUserByName(){
+        CreateUserRequest request= new CreateUserRequest();
+        request.setUsername(USERNAME);
+        request.setPassword(PASSWORD);
+        request.setConfirmpassword(CONFIRMPASSWORD);
+        //Create useer to compared
+        ResponseEntity<User> response = userController.createUser(request);
+        User user = response.getBody();
+        assertNotNull(response);
 
+        //Find user by name
+        ResponseEntity<User> retrieved = userController.findByUserName(user.getUsername());
+        User userRetrieved = retrieved.getBody();
+
+        assertNotNull(retrieved);
+        assertEquals(user.getUsername(),userRetrieved.getUsername());
+    }
 }
