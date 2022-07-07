@@ -127,6 +127,4 @@ public class UserControllerT {
         User userBuscado = response.getBody();
         assertEquals(user.getId(), userBuscado.getId());
     }
-
-    //findByName
 }

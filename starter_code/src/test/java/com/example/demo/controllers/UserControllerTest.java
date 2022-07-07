@@ -97,6 +97,5 @@ public class UserControllerTest {
 
         assertNotNull(retrieved);
         assertEquals(user.getUsername(),userRetrieved.getUsername());
-
     }
 }
