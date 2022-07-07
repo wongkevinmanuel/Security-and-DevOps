@@ -3,7 +3,6 @@ package com.example.demo.controllers;
 import com.example.demo.SareetaApplication;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.requests.CreateUserRequest;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

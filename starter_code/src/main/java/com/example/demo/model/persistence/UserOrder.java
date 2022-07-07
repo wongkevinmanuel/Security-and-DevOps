@@ -28,7 +28,8 @@ public class UserOrder {
 	@Column
 	private Long id;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	//@ManyToMany(cascade = CascadeType.ALL) Original
+	@ManyToMany(cascade = CascadeType.DETACH)
 	@JsonProperty
 	@Column
     private List<Item> items;
