@@ -5,7 +5,6 @@ import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.requests.CreateUserRequest;
 import com.example.demo.model.requests.ModifyCartRequest;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +88,17 @@ public class CartControllerT {
         responseCart = cartController.removeFromcart(requestCart);
         assertNotNull(responseCart);
         assertEquals( 0,responseCart.getBody().getItems().size());
+    }
+
+    @Test
+    public void errorAddToCartUserNull(){
+        ModifyCartRequest requestCart = new ModifyCartRequest();
+        requestCart.setUsername(null);
+        requestCart.setItemId(1);
+        requestCart.setQuantity(4);
+
+        ResponseEntity<Cart> responseCart = cartController.addTocart(requestCart);
+        assertNotNull(responseCart);
+        assertEquals(HttpStatus.NOT_FOUND, responseCart.getStatusCode());
     }
 }
